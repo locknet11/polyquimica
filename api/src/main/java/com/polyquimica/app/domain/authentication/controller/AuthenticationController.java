@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriBuilder;
-
 import com.polyquimica.app.domain.authentication.model.AuthenticationRequest;
 import com.polyquimica.app.domain.authentication.model.AuthenticationResponse;
 import com.polyquimica.app.domain.authentication.services.AuthenticationService;

@@ -10,5 +10,7 @@ public interface UserService {
 
     User getByUsername(String username) throws UserException;
 
+    User getCurrentUser(String email);
+
     boolean emailExists(String email);
 }

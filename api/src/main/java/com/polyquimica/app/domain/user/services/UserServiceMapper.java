@@ -2,6 +2,7 @@ package com.polyquimica.app.domain.user.services;
 
 import java.time.LocalDateTime;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +11,8 @@ import com.polyquimica.app.domain.user.model.Role;
 import com.polyquimica.app.domain.user.model.User;
 import com.polyquimica.app.domain.user.model.dto.CreateClientUserRequest;
 import com.polyquimica.app.domain.user.model.dto.CreateUserRequest;
+import com.polyquimica.app.domain.user.model.dto.UserAccountInfo;
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -18,6 +21,7 @@ public class UserServiceMapper {
 
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
+    private final ModelMapper modelMapper;
 
     public User createUserRequestToUser(CreateUserRequest request) throws UserException {
         if (emailExists(request.getEmail())) {
@@ -45,6 +49,10 @@ public class UserServiceMapper {
                 .setCompany(getRequestCompany(request.getCompany()))
                 .setCreatedAt(LocalDateTime.now());
         return user;
+    }
+
+    public UserAccountInfo userToUserAccountInfo(User user) {
+        return modelMapper.map(user, UserAccountInfo.class);
     }
 
     private boolean emailExists(String email) {

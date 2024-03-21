@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -63,7 +65,17 @@ public class CustomExceptionHandler {
 				.code(ErrorCode.BAD_CREDENTIALS)
 				.detail(ErrorCode.BAD_CREDENTIALS.getDefaultMessage()).build();
 		response = new GenericErrorResponse(errorDetails, null).mapOf();
-		return ResponseEntity.badRequest().body(response);
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+	}
+
+	@ExceptionHandler(AccessDeniedException.class)
+	protected ResponseEntity<?> accessDenied(AccessDeniedException ex) {
+		Map<String, Object> response = null;
+		ErrorDetails errorDetails = ErrorDetails.builder()
+				.code(ErrorCode.UNAUTHORIZED)
+				.detail(ErrorCode.UNAUTHORIZED.getDefaultMessage()).build();
+		response = new GenericErrorResponse(errorDetails, null).mapOf();
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
 	}
 
 	/*

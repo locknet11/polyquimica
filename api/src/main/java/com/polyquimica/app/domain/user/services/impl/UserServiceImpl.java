@@ -62,4 +62,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userOptional.isPresent();
     }
 
+    @Override
+    public User getCurrentUser(String email) {
+        return repository.findByEmail(email).orElse(null);
+    }
+
 }

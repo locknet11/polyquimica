@@ -1,8 +1,8 @@
 package com.polyquimica.app.domain.authentication.jwt;
 
 import java.io.IOException;
+
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,20 +20,19 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
-    
 
 	private final JwtUtil jwtUtil;
 	private final UserDetailsService userService;
-	
+
 	@AllArgsConstructor
-    @Getter
+	@Getter
 	protected class AuthenticationDataHolder {
 		private String username;
 		private String jwt;
-		
+
 	}
-	
-	private AuthenticationDataHolder getAuthenticationData(HttpServletRequest request) {		
+
+	private AuthenticationDataHolder getAuthenticationData(HttpServletRequest request) {
 		final String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 		String jwt = null;
 		String username = null;
@@ -41,12 +40,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			jwt = authorizationHeader;
 			username = jwtUtil.extractUsername(jwt);
 			return new AuthenticationDataHolder(username, jwt);
-		}	
+		}
 		return null;
 	}
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws IOException, ServletException {
 
 		try {
 			AuthenticationDataHolder auth = getAuthenticationData(request);
@@ -59,7 +59,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 				}
 			}
 		} catch (Exception e) {
-			throw new BadCredentialsException("Invalid credentials");
 		}
 
 		filterChain.doFilter(request, response);
