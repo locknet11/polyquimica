@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.mongodb.MongoWriteException;
 import com.polyquimica.app.common.LangUtils;
+import com.polyquimica.app.domain.user.exception.UserException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,8 +28,19 @@ public class CustomExceptionHandler {
 	protected ResponseEntity<?> handleMongoWriteException(MongoWriteException ex) {
 		Map<String, Object> response = null;
 		ErrorDetails errorDetails = ErrorDetails.builder()
-					.code(ErrorCode.INTERNAL_ERROR)
-					.detail(ErrorCode.INTERNAL_ERROR.getDefaultMessage()).build();
+				.code(ErrorCode.INTERNAL_ERROR)
+				.detail(ErrorCode.INTERNAL_ERROR.getDefaultMessage()).build();
+		response = new GenericErrorResponse(errorDetails, null).mapOf();
+		log.error(ex.toString());
+		return ResponseEntity.badRequest().body(response);
+	}
+
+	@ExceptionHandler(DuplicateKeyException.class)
+	protected ResponseEntity<?> duplicatedKey(DuplicateKeyException ex) {
+		Map<String, Object> response = null;
+		ErrorDetails errorDetails = ErrorDetails.builder()
+				.code(ErrorCode.RESOURCE_ALREADY_EXISTS)
+				.detail(ex.getMessage()).build();
 		response = new GenericErrorResponse(errorDetails, null).mapOf();
 		log.error(ex.toString());
 		return ResponseEntity.badRequest().body(response);
@@ -36,27 +50,51 @@ public class CustomExceptionHandler {
 	protected ResponseEntity<?> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
 		Map<String, Object> response = null;
 		ErrorDetails errorDetails = ErrorDetails.builder()
-					.code(ErrorCode.MESSAGE_NOT_READABLE)
-					.detail(ErrorCode.MESSAGE_NOT_READABLE.getDefaultMessage()).build();
+				.code(ErrorCode.MESSAGE_NOT_READABLE)
+				.detail(ErrorCode.MESSAGE_NOT_READABLE.getDefaultMessage()).build();
 		response = new GenericErrorResponse(errorDetails, null).mapOf();
 		return ResponseEntity.badRequest().body(response);
 	}
 
-	/* Throws error if request body is violating constraints on params anottated with @Valid  */
+	@ExceptionHandler(BadCredentialsException.class)
+	protected ResponseEntity<?> badCredentials(BadCredentialsException ex) {
+		Map<String, Object> response = null;
+		ErrorDetails errorDetails = ErrorDetails.builder()
+				.code(ErrorCode.BAD_CREDENTIALS)
+				.detail(ErrorCode.BAD_CREDENTIALS.getDefaultMessage()).build();
+		response = new GenericErrorResponse(errorDetails, null).mapOf();
+		return ResponseEntity.badRequest().body(response);
+	}
+
+	/*
+	 * Throws error if request body is violating constraints on params anottated
+	 * with @Valid
+	 */
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected ResponseEntity<?> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, Locale locale) {
 		Map<String, Object> response = null;
 		ErrorDetails errorDetails = ErrorDetails.builder()
-					.code(ErrorCode.MISSING_REQUEST_PARAMETERS)
-					.detail(ErrorCode.MISSING_REQUEST_PARAMETERS.getDefaultMessage()).build();
+				.code(ErrorCode.MISSING_REQUEST_PARAMETERS)
+				.detail(ErrorCode.MISSING_REQUEST_PARAMETERS.getDefaultMessage()).build();
 		if (ex.getFieldErrors() != null) {
 			List<FieldValidationError> fieldValidationErrors = new ArrayList<>();
 			ex.getFieldErrors().forEach(fieldError -> {
 				fieldValidationErrors
-						.add(new FieldValidationError(fieldError.getField(), langUtils.getLocalizedMessage(fieldError.getDefaultMessage(), locale)));
+						.add(new FieldValidationError(fieldError.getField(),
+								langUtils.getLocalizedMessage(fieldError.getDefaultMessage(), locale)));
 			});
 			response = new GenericErrorResponse(errorDetails, fieldValidationErrors).mapOf();
 		}
+		return ResponseEntity.badRequest().body(response);
+	}
+
+	@ExceptionHandler(UserException.class)
+	public ResponseEntity<?> handleUserExceptions(UserException ex) {
+		Map<String, Object> response = null;
+		ErrorDetails errorDetails = ErrorDetails.builder()
+				.code(ErrorCode.USER_EXCEPTION)
+				.detail(ex.getLocalizedMessage()).build();
+		response = new GenericErrorResponse(errorDetails, null).mapOf();
 		return ResponseEntity.badRequest().body(response);
 	}
 
@@ -64,8 +102,8 @@ public class CustomExceptionHandler {
 	protected ResponseEntity<?> handleException(Exception ex) {
 		Map<String, Object> response = null;
 		ErrorDetails errorDetails = ErrorDetails.builder()
-					.code(ErrorCode.INTERNAL_ERROR)
-					.detail(ErrorCode.INTERNAL_ERROR.getDefaultMessage()).build();
+				.code(ErrorCode.INTERNAL_ERROR)
+				.detail(ErrorCode.INTERNAL_ERROR.getDefaultMessage()).build();
 		response = new GenericErrorResponse(errorDetails, null).mapOf();
 		log.error(ex.toString());
 		return ResponseEntity.badRequest().body(response);

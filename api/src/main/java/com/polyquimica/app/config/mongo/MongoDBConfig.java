@@ -24,15 +24,20 @@ public class MongoDBConfig extends AbstractMongoClientConfiguration {
     protected String getDatabaseName() {
         return this.databaseName;
     }
-    
+
     @Override
     public MongoClient mongoClient() {
         ConnectionString connectionString = new ConnectionString(buildConnectionString());
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
-            .applyConnectionString(connectionString)
-            .build();
-        
+                .applyConnectionString(connectionString)
+                .build();
+
         return MongoClients.create(mongoClientSettings);
+    }
+
+    @Override
+    public boolean autoIndexCreation() {
+        return true;
     }
 
     @Override

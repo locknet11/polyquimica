@@ -1,6 +1,9 @@
 package com.polyquimica.app.domain.user.services.impl;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Optional;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,18 +19,29 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository repository;
-    
+
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // TODO Auto-generated method stub
-        return null;
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional<User> user = repository.findByEmail(email);
+        if (user.isPresent()) {
+            User thisUser = user.get();
+            ArrayList<GrantedAuthority> authorities = new ArrayList<>();
+            GrantedAuthority thisRole = new SimpleGrantedAuthority(thisUser.getRole().toString());
+            authorities.add(thisRole);
+            if (!thisUser.getModuleAccess().isEmpty()) {
+                thisUser.getModuleAccess().forEach(ma -> {
+                    authorities.add(new SimpleGrantedAuthority(ma.name()));
+                });
+            }
+            return new org.springframework.security.core.userdetails.User(email, thisUser.getEncodedPassword(),
+                    authorities);
+        } else {
+            throw new UsernameNotFoundException(String.format("User [%s] not found", email));
+        }
     }
 
     @Override
-    public User createUser() {
-        User user = new User();
-        user.setCreatedAt(LocalDateTime.now());
-        user.setEmail("test@test.com");
+    public User createUser(User user) {
         return repository.save(user);
     }
 
@@ -40,6 +54,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User getByUsername(String username) throws UserException {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getByUsername'");
+    }
+
+    @Override
+    public boolean emailExists(String email) {
+        Optional<User> userOptional = repository.findByEmail(email);
+        return userOptional.isPresent();
     }
 
 }
