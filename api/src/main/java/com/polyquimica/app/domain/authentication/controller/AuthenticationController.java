@@ -1,7 +1,6 @@
 package com.polyquimica.app.domain.authentication.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,13 +13,11 @@ import com.polyquimica.app.domain.user.model.User;
 import com.polyquimica.app.domain.user.model.dto.CreateClientUserRequest;
 import com.polyquimica.app.domain.user.services.UserService;
 import com.polyquimica.app.domain.user.services.UserServiceMapper;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin
 @RequiredArgsConstructor
 public class AuthenticationController {
 

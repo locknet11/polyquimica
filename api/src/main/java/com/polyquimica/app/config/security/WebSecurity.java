@@ -30,7 +30,7 @@ public class WebSecurity {
 
     private final JwtRequestFilter jwtRequestFilter;
 
-    @Value("allowedOrigins")
+    @Value("${allowedOrigins}")
     private String[] allowedOrigins;
 
     @Bean
