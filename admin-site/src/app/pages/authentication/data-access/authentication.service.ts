@@ -30,6 +30,4 @@ export class AuthenticationService {
   saveToken(token: string) {
     this.localStorageService.setToken(token);
   }
-
-  logout() {}
 }

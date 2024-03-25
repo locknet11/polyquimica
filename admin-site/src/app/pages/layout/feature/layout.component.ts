@@ -59,13 +59,7 @@ export class LayoutComponent implements OnDestroy {
             event => {
               const isOutsideClicked = !(
                 this.appTopbar.menu.nativeElement.isSameNode(event.target) ||
-                this.appTopbar.menu.nativeElement.contains(event.target) ||
-                this.appTopbar.topbarMenuButton.nativeElement.isSameNode(
-                  event.target
-                ) ||
-                this.appTopbar.topbarMenuButton.nativeElement.contains(
-                  event.target
-                )
+                this.appTopbar.menu.nativeElement.contains(event.target)
               );
 
               if (isOutsideClicked) {

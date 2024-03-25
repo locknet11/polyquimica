@@ -9,8 +9,6 @@
 
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
             <p-menu #menu [model]="items" [popup]="true"></p-menu>
-            <button type="button" (click)="menu.toggle($event)" class="p-link layout-topbar-button">
-                <i class="pi pi-user"></i>
-            </button>
+            <button pButton type="button" (click)="menu.toggle($event)" icon="pi pi-user" class="p-button-raised p-button-secondary" [label]="($accountInfo | async)?.fullName || ''"></button>
     </div>
 </div>

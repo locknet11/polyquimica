@@ -14,6 +14,7 @@ import {
 import { FormErrorDirective } from 'src/app/shared/directives/form-error.directive';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { Router } from '@angular/router';
+import { MessageModule } from 'primeng/message';
 
 @Component({
   selector: 'app-authentication',
@@ -26,6 +27,7 @@ import { Router } from '@angular/router';
     ReactiveFormsModule,
     FormsModule,
     FormErrorDirective,
+    MessageModule,
   ],
   providers: [AuthenticationService],
   templateUrl: './authentication.component.html',
@@ -42,6 +44,8 @@ export class AuthenticationComponent {
     password: ['', [Validators.required]],
   });
 
+  failedAuth = false;
+
   login() {
     if (this.loginForm.invalid) return;
     const formData = this.loginForm.getRawValue();
@@ -56,7 +60,7 @@ export class AuthenticationComponent {
           this.router.navigate(['dashboard']);
         },
         error: err => {
-          this.toastService.error($localize`Invalid credentials`);
+          this.failedAuth = true;
         },
       });
   }

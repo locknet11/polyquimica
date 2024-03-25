@@ -5,13 +5,12 @@ import { LayoutService } from 'src/app/shared/services/layout.service';
 import { Router, RouterModule } from '@angular/router';
 import { MenuModule } from 'primeng/menu';
 import { ButtonModule } from 'primeng/button';
-import { AuthenticationService } from 'src/app/pages/authentication/data-access/authentication.service';
+import { AccountService } from 'src/app/shared/services/account.service';
 
 @Component({
   selector: 'app-topbar',
   standalone: true,
   imports: [CommonModule, RouterModule, MenuModule, ButtonModule],
-  providers: [AuthenticationService],
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.scss'],
 })
@@ -24,20 +23,20 @@ export class TopbarComponent {
     },
   ];
 
-  @ViewChild('menubutton') menuButton!: ElementRef;
+  $accountInfo = this.accountService.$accountData;
 
-  @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;
+  @ViewChild('menubutton') menuButton!: ElementRef;
 
   @ViewChild('topbarmenu') menu!: ElementRef;
 
   handleLogout() {
-    this.authService.logout();
+    this.accountService.logout();
     this.router.navigate(['login']);
   }
 
   constructor(
     public layoutService: LayoutService,
-    private authService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private accountService: AccountService
   ) {}
 }

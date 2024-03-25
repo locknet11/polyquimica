@@ -11,6 +11,8 @@ import { ToastService } from './shared/services/toast.service';
 import { MessageService } from 'primeng/api';
 import { LayoutService } from './shared/services/layout.service';
 import { MenuService } from './shared/services/menu.service';
+import { MessagesModule } from 'primeng/messages';
+import { AccountService } from './shared/services/account.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,6 +22,7 @@ import { MenuService } from './shared/services/menu.service';
     BrowserAnimationsModule,
     HttpClientModule,
     ToastModule,
+    MessagesModule,
   ],
   providers: [
     LocalStorageService,
@@ -27,6 +30,7 @@ import { MenuService } from './shared/services/menu.service';
     MessageService,
     LayoutService,
     MenuService,
+    AccountService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RequestInterceptor,
