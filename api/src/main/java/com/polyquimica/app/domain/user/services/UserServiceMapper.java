@@ -1,18 +1,18 @@
 package com.polyquimica.app.domain.user.services;
 
 import java.time.LocalDateTime;
-
+import java.util.List;
+import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
 import com.polyquimica.app.domain.user.exception.UserException;
 import com.polyquimica.app.domain.user.model.Role;
 import com.polyquimica.app.domain.user.model.User;
 import com.polyquimica.app.domain.user.model.dto.CreateClientUserRequest;
 import com.polyquimica.app.domain.user.model.dto.CreateUserRequest;
+import com.polyquimica.app.domain.user.model.dto.UpdateUserRequest;
 import com.polyquimica.app.domain.user.model.dto.UserAccountInfo;
-
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -31,7 +31,8 @@ public class UserServiceMapper {
         user.setEmail(request.getEmail())
                 .setFullName(request.getFullName())
                 .setEncodedPassword(passwordEncoder.encode(request.getPassword()))
-                .setRole(Role.USER)
+                .setRole(request.getRole())
+                .setModuleAccess(request.getModuleAccess())
                 .setCreatedAt(LocalDateTime.now());
         return user;
     }
@@ -51,8 +52,25 @@ public class UserServiceMapper {
         return user;
     }
 
+    public List<UserAccountInfo> userListToUserAccountInfoList(List<User> users) {
+        return users
+                .stream()
+                .map(user -> modelMapper.map(user, UserAccountInfo.class))
+                .collect(Collectors.toList());
+    }
+
     public UserAccountInfo userToUserAccountInfo(User user) {
         return modelMapper.map(user, UserAccountInfo.class);
+    }
+
+    public User updateUserRequestToUser(UpdateUserRequest request, String userId) throws UserException{ 
+        User user = userService.getById(userId);
+        user.setEmail(request.getEmail())
+        .setFullName(request.getFullName())
+        .setModuleAccess(request.getModuleAccess())
+        .setRole(request.getRole())
+        .setUpdatedAt(LocalDateTime.now());
+        return user;
     }
 
     private boolean emailExists(String email) {

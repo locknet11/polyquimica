@@ -24,7 +24,6 @@ import { MenuService } from 'src/app/shared/services/menu.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './menuitem.component.html',
-  styleUrls: ['./menuitem.component.scss'],
   animations: [
     trigger('children', [
       state(

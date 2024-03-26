@@ -57,7 +57,7 @@ export class AuthenticationComponent {
       .subscribe({
         next: res => {
           this.authService.saveToken(res.token);
-          this.router.navigate(['dashboard']);
+          this.router.navigate(['mainpage']);
         },
         error: err => {
           this.failedAuth = true;

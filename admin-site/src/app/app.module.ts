@@ -13,6 +13,10 @@ import { LayoutService } from './shared/services/layout.service';
 import { MenuService } from './shared/services/menu.service';
 import { MessagesModule } from 'primeng/messages';
 import { AccountService } from './shared/services/account.service';
+import { DropdownModule } from 'primeng/dropdown';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +27,12 @@ import { AccountService } from './shared/services/account.service';
     HttpClientModule,
     ToastModule,
     MessagesModule,
+    DropdownModule,
+    ButtonModule,
+    InputTextModule,
+    PasswordModule,
   ],
+  exports: [PasswordModule],
   providers: [
     LocalStorageService,
     ToastService,

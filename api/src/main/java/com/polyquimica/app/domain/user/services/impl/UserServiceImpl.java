@@ -1,6 +1,7 @@
 package com.polyquimica.app.domain.user.services.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -65,6 +66,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User getCurrentUser(String email) {
         return repository.findByEmail(email).orElse(null);
+    }
+
+    @Override
+    public List<User> getUsers() {
+        return repository.findAll();
+    }
+
+    @Override
+    public void deleteUser(String userId) {
+        repository.deleteById(userId);
+    }
+
+    @Override
+    public User updateUser(User user) throws UserException {
+        return repository.save(user);
     }
 
 }
