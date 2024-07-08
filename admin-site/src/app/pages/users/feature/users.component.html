@@ -7,7 +7,18 @@
     i18n-label
     label="Create"></button>
 </div>
-<p-table [value]="users" [tableStyle]="{ 'min-width': '50rem' }">
+<p-table
+  [value]="users"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  [lazy]="true"
+  (onLazyLoad)="getUsers($event)"
+  [rows]="rows"
+  [alwaysShowPaginator]="true"
+  i18n-currentPageReportTemplate
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  [totalRecords]="totalRecords"
+  [showCurrentPageReport]="true"
+  [paginator]="true">
   <ng-template pTemplate="header">
     <tr>
       <th i18n>Email</th>
@@ -22,17 +33,17 @@
       <td>{{ user.fullName }}</td>
       <td>{{ user.role }}</td>
       <td>
-        <div class="flex">
+        <div>
           <button
             pButton
-            class="mr-1"
+            class="mr-1 p-button p-button-sm"
             icon="pi pi-pencil"
             i18n-title
             (click)="editUser(user.id)"
             title="Edit"></button>
           <button
             pButton
-            class="p-button-danger"
+            class="p-button-danger p-button p-button-sm"
             icon="pi pi-trash"
             i18n-title
             (click)="deleteConfirm($event, user.id)"

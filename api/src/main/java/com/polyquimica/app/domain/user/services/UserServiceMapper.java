@@ -4,8 +4,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import com.polyquimica.app.domain.shared.ListMapper;
+import com.polyquimica.app.domain.shared.ResponseList;
 import com.polyquimica.app.domain.user.exception.UserException;
 import com.polyquimica.app.domain.user.model.Role;
 import com.polyquimica.app.domain.user.model.User;
@@ -13,6 +16,7 @@ import com.polyquimica.app.domain.user.model.dto.CreateClientUserRequest;
 import com.polyquimica.app.domain.user.model.dto.CreateUserRequest;
 import com.polyquimica.app.domain.user.model.dto.UpdateUserRequest;
 import com.polyquimica.app.domain.user.model.dto.UserAccountInfo;
+import com.polyquimica.app.domain.user.model.dto.UsersList;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -52,11 +56,10 @@ public class UserServiceMapper {
         return user;
     }
 
-    public List<UserAccountInfo> userListToUserAccountInfoList(List<User> users) {
-        return users
-                .stream()
-                .map(user -> modelMapper.map(user, UserAccountInfo.class))
-                .collect(Collectors.toList());
+    public ResponseList<UserAccountInfo> usersListToResponseList(UsersList list) {
+        List<UserAccountInfo> accountInfoList = userListToUserAccountInfoList(list.getContent());
+        PageImpl<UserAccountInfo> dtoPage = new PageImpl<>(accountInfoList, list.getPageable(), list.getTotalElements());
+        return ListMapper.mapList(dtoPage);
     }
 
     public UserAccountInfo userToUserAccountInfo(User user) {
@@ -71,6 +74,13 @@ public class UserServiceMapper {
         .setRole(request.getRole())
         .setUpdatedAt(LocalDateTime.now());
         return user;
+    }
+
+    private List<UserAccountInfo> userListToUserAccountInfoList(List<User> users) {
+        return users
+                .stream()
+                .map(user -> modelMapper.map(user, UserAccountInfo.class))
+                .collect(Collectors.toList());
     }
 
     private boolean emailExists(String email) {

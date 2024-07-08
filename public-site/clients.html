@@ -1,0 +1,150 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="icon" href="assets/img/favicon.png" />
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/logos.css" />
+    <link rel="stylesheet" href="assets/css/views.css" />
+    <title>Portal clientes</title>
+  </head>
+  <body>
+    <div id="navbar-container"></div>
+    <script>
+      $("#navbar-container").load("../fragments/navbar.html");
+    </script>
+
+    <!-- Content start -->
+    <div class="container-xxl px-5 py-5">
+      <div class="container px-5">
+        <h2 class="mb-5">Hace tu pedido.</h2>
+        <form>
+          <div class="mb-3">
+            <label for="sector" class="form-label">Seleccione el sector</label>
+            <div class="btn-group d-flex" role="group" aria-label="Sector">
+              <input
+                type="radio"
+                class="btn-check"
+                name="sector"
+                id="sectorPublico"
+                value="sectorPublico"
+                autocomplete="off"
+                checked
+              />
+              <label
+                class="btn btn-outline-primary flex-fill"
+                for="sectorPublico"
+                >Sector público</label
+              >
+
+              <input
+                type="radio"
+                class="btn-check"
+                name="sector"
+                id="sectorPrivado"
+                value="sectorPrivado"
+                autocomplete="off"
+              />
+              <label
+                class="btn btn-outline-primary flex-fill"
+                for="sectorPrivado"
+                >Sector privado</label
+              >
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <div class="col-md-6">
+              <label for="nombreCompleto" class="form-label"
+                >Nombre completo</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="nombreCompleto"
+                placeholder="Ingrese su nombre completo"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="email" class="form-label">E-mail</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                placeholder="Ingrese su e-mail"
+              />
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="empresaCentroMedico" class="form-label"
+              >Empresa o centro medico</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="empresaCentroMedico"
+              placeholder="Ingrese el nombre de la empresa o centro medico"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="mensaje" class="form-label">Pedido</label>
+            <textarea
+              class="form-control"
+              id="mensaje"
+              rows="4"
+              placeholder="Ingrese el pedido"
+            ></textarea>
+          </div>
+          <div class="form-check form-switch fs-5 mb-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="flexSwitchCheckChecked"
+            />
+            <label class="form-check-label" for="flexSwitchCheckChecked"
+              >Pedido de emergencia</label
+            >
+          </div>
+
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+      </div>
+    </div>
+    <!-- Content end -->
+
+    <div id="footer-container">
+      <script>
+        $("#footer-container").load("fragments/footer.html");
+      </script>
+    </div>
+
+    <a
+      href="https://api.whatsapp.com/send?phone=5492613339999&text=Hola%21%20Quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20Polyquímica%20."
+      class="float-whatsapp"
+      target="_blank"
+    >
+      <i class="fab fa-whatsapp my-float"></i>
+    </a>
+  </body>
+  <script src="assets/js/bootstrap.min.js"></script>
+</html>

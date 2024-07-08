@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TableModule } from 'primeng/table';
+import { TableLazyLoadEvent, TableModule, TablePageEvent } from 'primeng/table';
 import { User } from '../data-access/users.model';
 import { UsersService } from '../data-access/users.service';
 import { map } from 'rxjs';
@@ -25,12 +25,25 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 })
 export class UsersComponent implements OnInit {
   users: User[] = [];
+  totalRecords!: number;
+  rows!: number;
+
   ngOnInit(): void {
+    //this.getUsers();
+  }
+
+  getUsers(pageEvent?: TableLazyLoadEvent) {
+    let page = 0;
+    let size = 10;
+    if (pageEvent && pageEvent.first && pageEvent.rows) {
+      page = pageEvent.first / pageEvent.rows;
+      size = pageEvent.rows;
+    }
     this.usersService
-      .getUsers({})
+      .getUsers(page, size)
       .pipe(
         map(res => {
-          return res.map(user => {
+          res.content = res.content.map(user => {
             if (user.role === 'ADMIN') {
               user.role = $localize`Administrator`;
             }
@@ -40,11 +53,14 @@ export class UsersComponent implements OnInit {
             }
             return user;
           });
+          return res;
         })
       )
       .subscribe({
         next: res => {
-          this.users = res;
+          this.users = res.content;
+          this.totalRecords = res.totalElements;
+          this.rows = res.size;
         },
       });
   }
@@ -74,6 +90,7 @@ export class UsersComponent implements OnInit {
     this.usersService.deleteUser(userId).subscribe({
       next: res => {
         this.toastService.success($localize`User deleted successfully`);
+        this.getUsers();
       },
       error: err => {
         console.error(err);

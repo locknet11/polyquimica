@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import {
@@ -15,8 +15,9 @@ const baseUrl = environment.baseUrl;
 export class UsersService {
   constructor(private http: HttpClient) {}
 
-  getUsers(params: any) {
-    return this.http.get<User[]>(`${baseUrl}/user`, { params });
+  getUsers(page: number, size: number) {
+    let params = new HttpParams().set('page', page).set('size', size);
+    return this.http.get<UsersList>(`${baseUrl}/user`, { params });
   }
 
   createUser(userRequest: CreateUserRequest) {

@@ -2,6 +2,8 @@ export interface UsersList {
   content: User[];
   page: number;
   size: number;
+  totalPages: number;
+  totalElements: number;
 }
 
 export interface User {

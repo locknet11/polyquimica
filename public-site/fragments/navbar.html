@@ -1,0 +1,106 @@
+<!-- Topbar Start -->
+<div class="container-fluid bg-dark text-white-50 py-2 px-0 d-none d-lg-block">
+  <div class="row gx-0 align-items-center">
+    <div class="col-lg-7 px-5 text-start">
+      <div class="h-100 d-inline-flex align-items-center me-4">
+        <small class="fa fa-phone-alt me-2"></small>
+        <small
+          ><a class="anchor-none" href="tel:0800 999 3244"
+            >0800 999 3244</a
+          ></small
+        >
+      </div>
+      <div class="h-100 d-inline-flex align-items-center me-4">
+        <small class="far fa-envelope-open me-2"></small>
+        <small
+          ><a class="anchor-none" href="mailto:info@polyquimica.com"
+            >info@polyquimica.com</a
+          ></small
+        >
+      </div>
+      <div class="h-100 d-inline-flex align-items-center me-4">
+        <small class="far fa-clock me-2"></small>
+        <small>Lun - Vie : 08 AM - 5:30 PM</small>
+      </div>
+    </div>
+    <div class="col-lg-5 px-5 text-end">
+      <div class="h-100 d-inline-flex align-items-center">
+        <a class="text-white-50 ms-4" href=""
+          ><i class="fab fa-facebook-f"></i
+        ></a>
+        <a class="text-white-50 ms-4" href=""><i class="fab fa-twitter"></i></a>
+        <a class="text-white-50 ms-4" href=""
+          ><i class="fab fa-linkedin-in"></i
+        ></a>
+        <a class="text-white-50 ms-4" href=""
+          ><i class="fab fa-instagram"></i
+        ></a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Topbar End -->
+
+<!-- Navbar Start -->
+<nav
+  class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5"
+>
+  <a href="index.html" class="navbar-brand d-flex align-items-center">
+    <h1 class="m-0">
+      <img class="img-fluid" src="assets/img/logo.png" alt="" width="250" />
+    </h1>
+  </a>
+  <button
+    type="button"
+    class="navbar-toggler"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarCollapse"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <div class="navbar-nav mx-auto rounded pe-4 py-3 py-lg-0 gap-3">
+      <a href="index.html" class="nav-item nav-link">Inicio</a>
+      <a href="index.html#about-us" class="nav-item nav-link">Sobre nosotros</a>
+      <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+          >Servicios</a
+        >
+        <div class="dropdown-menu bg-light border-0 m-0">
+          <a href="medical-specialties.html" class="dropdown-item"
+            >Especialidades medicinales</a
+          >
+          <a href="medical-products.html" class="dropdown-item"
+            >Productos Médicos</a
+          >
+          <a href="equipment.html" class="dropdown-item">Equipamiento</a>
+          <a href="tooth-care.html" class="dropdown-item"
+            >Productos Odontológicos</a
+          >
+          <a href="image-storage.html" class="dropdown-item"
+            >Sistema de almacenamiento de imagenes</a
+          >
+          <a href="vet-line.html" class="dropdown-item">Línea Veterinaria</a>
+          <a href="consultancy.html" class="dropdown-item"
+            >Asesoramiento y servicio de consultoría</a
+          >
+        </div>
+      </div>
+      <a href="news.html" class="nav-item nav-link">Novedades y lanzamientos</a>
+      <a href="contact.html" class="nav-item nav-link">Contacto</a>
+    </div>
+    <a href="clients.html" class="btn ms-auto btn-primary px-3 d-lg-block"
+      >Clientes</a
+    >
+  </div>
+</nav>
+
+<script>
+  var currentPath = window.location.pathname.split("/").pop();
+  var navLinks = document.querySelectorAll(".nav-link");
+  navLinks.forEach(function (link) {
+    if (link.getAttribute("href") === currentPath) {
+      link.classList.add("active");
+    }
+  });
+</script>

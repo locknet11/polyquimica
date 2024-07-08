@@ -3,15 +3,21 @@ package com.polyquimica.app.domain.user.services.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
 import com.polyquimica.app.domain.user.db.UserRepository;
 import com.polyquimica.app.domain.user.exception.UserException;
 import com.polyquimica.app.domain.user.model.User;
+import com.polyquimica.app.domain.user.model.dto.UsersList;
 import com.polyquimica.app.domain.user.services.UserService;
 import lombok.RequiredArgsConstructor;
 
@@ -81,6 +87,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User updateUser(User user) throws UserException {
         return repository.save(user);
+    }
+
+    @Override
+    public UsersList listUsers(PageRequest pageRequest) {
+        Page<User> page = repository.findAll(pageRequest);
+        return new UsersList(page.getContent(), pageRequest, page.getTotalElements());
+    }
+
+    void postStuff() {
+        RestTemplate te = new RestTemplate();
+        
     }
 
 }
