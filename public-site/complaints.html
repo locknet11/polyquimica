@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="assets/css/styles.css" />
     <link rel="stylesheet" href="assets/css/logos.css" />
     <link rel="stylesheet" href="assets/css/views.css" />
-    <title>Polyquímica S.R.L - Novedades y lanzamientos</title>
+    <title>Polyquímica S.R.L - Reclamos</title>
   </head>
   <body>
     <div id="navbar-container"></div>
@@ -38,11 +38,50 @@
       <div class="container">
         <div class="row g-5">
           <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-            <h1 class="display-6 mb-5">Novedades y lanzamientos.</h1>
+            <h1 class="display-6 mb-5">Reclamos.</h1>
 
-            <div class="mt-5 mb-5">
-              <span style="visibility: hidden">.</span>
-            </div>
+            <form>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      placeholder="Your Name"
+                    />
+                    <label for="name">Nombre y Apellido</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      placeholder="Your Email"
+                    />
+                    <label for="email">Correo electrónico</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating">
+                    <textarea
+                      class="form-control"
+                      placeholder="Leave a message here"
+                      id="message"
+                      style="height: 100px"
+                    ></textarea>
+                    <label for="message">Comentanos tu reclamo</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <button class="btn btn-primary py-3 px-5" type="submit">
+                    Enviar reclamo
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
