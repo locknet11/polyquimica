@@ -1,0 +1,2 @@
+# No exponer los logs por la web (Apache - cPanel/Ferozo)
+Require all denied

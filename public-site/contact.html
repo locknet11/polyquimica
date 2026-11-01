@@ -38,19 +38,32 @@
       <div class="container">
         <div class="row g-5">
           <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-            <h1 class="display-6 mb-5">Comunicate con nosotros.</h1>
+            <h1 class="display-6 mb-5">Contactanos.</h1>
 
-            <form>
+            <form action="contact.php" method="POST">
+              <!-- Honeypot anti-spam: no visible para humanos, los bots lo llenan -->
+              <div class="d-none" aria-hidden="true">
+                <label for="empresa">Empresa</label>
+                <input
+                  type="text"
+                  id="empresa"
+                  name="empresa"
+                  tabindex="-1"
+                  autocomplete="off"
+                />
+              </div>
               <div class="row g-3">
                 <div class="col-md-6">
                   <div class="form-floating">
                     <input
                       type="text"
                       class="form-control"
-                      id="name"
+                      id="nombre"
+                      name="nombre"
                       placeholder="Your Name"
+                      required
                     />
-                    <label for="name">Nombre y Apellido</label>
+                    <label for="nombre">Nombre y Apellido</label>
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -59,7 +72,9 @@
                       type="email"
                       class="form-control"
                       id="email"
+                      name="email"
                       placeholder="Your Email"
+                      required
                     />
                     <label for="email">Correo electrónico</label>
                   </div>
@@ -69,10 +84,11 @@
                     <input
                       type="text"
                       class="form-control"
-                      id="subject"
+                      id="asunto"
+                      name="asunto"
                       placeholder="Subject"
                     />
-                    <label for="subject">Asunto</label>
+                    <label for="asunto">Asunto</label>
                   </div>
                 </div>
                 <div class="col-12">
@@ -80,10 +96,12 @@
                     <textarea
                       class="form-control"
                       placeholder="Leave a message here"
-                      id="message"
+                      id="mensaje"
+                      name="mensaje"
                       style="height: 100px"
+                      required
                     ></textarea>
-                    <label for="message">Consulta</label>
+                    <label for="mensaje">Consulta</label>
                   </div>
                 </div>
                 <div class="col-12">
@@ -128,6 +146,29 @@
     >
       <i class="fab fa-whatsapp my-float"></i>
     </a>
+    <script>
+      // Muestra el resultado del envío (contact.php redirige con ?sent=...)
+      (function () {
+        var sent = new URLSearchParams(window.location.search).get("sent");
+        if (!sent) return;
+        var ok = sent === "success";
+        var alert = document.createElement("div");
+        alert.className =
+          "alert " +
+          (ok ? "alert-success" : "alert-warning") +
+          " alert-dismissible fade show";
+        alert.setAttribute("role", "alert");
+        alert.innerHTML =
+          (ok
+            ? "¡Gracias por tu consulta! Te responderemos a la brevedad."
+            : "No pudimos enviar tu mensaje. Probá nuevamente o escribinos por WhatsApp.") +
+          '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
+        var form = document.querySelector("form");
+        if (form) {
+          form.parentNode.insertBefore(alert, form);
+        }
+      })();
+    </script>
   </body>
   <script src="assets/js/bootstrap.min.js"></script>
 </html>
